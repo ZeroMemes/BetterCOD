@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <TlHelp32.h>
+#include "memory.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -42,8 +43,8 @@ private:
 
 	// Memory Stuff
 	HANDLE pHandle;
-	DWORD addressFov;
-	DWORD addressFps;
+	DWORD_PTR addressFov;
+	DWORD_PTR addressFps;
 
 private:
 	void InitializeComponent(void)

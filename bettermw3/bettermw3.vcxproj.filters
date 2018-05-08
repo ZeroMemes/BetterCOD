@@ -18,6 +18,9 @@
     <ClInclude Include="Form.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="memory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -29,11 +32,9 @@
     <ClCompile Include="Form.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Form.resx">
-      <Filter>Resources</Filter>
-    </EmbeddedResource>
+    <ClCompile Include="memory.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico">

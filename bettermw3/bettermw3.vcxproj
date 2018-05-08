@@ -150,11 +150,13 @@
     <ClInclude Include="Form.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="memory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Form.cpp" />
+    <ClCompile Include="memory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico" />

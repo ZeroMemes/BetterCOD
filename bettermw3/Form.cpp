@@ -40,18 +40,16 @@ System::Void BetterMW3Form::Timer_Tick(System::Object^ sender, System::EventArgs
 		return;
 	}
 
-	DWORD address;
-
 	// Get the FOV address
-	if (!this->addressFov && ReadProcessMemory(pHandle, (LPCVOID) 0xB0C738, &address, 4, NULL) && address > 0)
+	if (!this->addressFov)
 	{
-		this->addressFov = address + 0xC;
+		this->addressFov = Memory::Read<DWORD_PTR>(this->pHandle, 0xB0C738) + 0xC;
 	}
 
 	// Get the FPS address
-	if (!this->addressFps && ReadProcessMemory(pHandle, (LPCVOID) 0x1CF0B84, &address, 4, NULL) && address > 0)
+	if (!this->addressFps)
 	{
-		this->addressFps = address + 0xC;
+		this->addressFps = Memory::Read<DWORD_PTR>(this->pHandle, 0x1CF0B84) + 0xC;
 	}
 
 	// Write the set FoV and Max FPS
@@ -89,7 +87,7 @@ void BetterMW3Form::WriteFov(float value)
 {
 	if (this->pHandle && this->addressFov)
 	{
-		WriteProcessMemory(pHandle, (LPVOID) this->addressFov, &value, 4, NULL);
+		Memory::Write<float>(pHandle, this->addressFov, value);
 	}
 }
 
@@ -97,6 +95,6 @@ void BetterMW3Form::WriteFps(int value)
 {
 	if (this->pHandle && this->addressFps)
 	{
-		WriteProcessMemory(this->pHandle, (LPVOID) this->addressFps, &value, 4, NULL);
+		Memory::Write<int>(pHandle, this->addressFps, value);
 	}
 }
