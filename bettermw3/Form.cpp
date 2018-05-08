@@ -74,6 +74,8 @@ bool BetterMW3Form::FindProcess()
 				{
 					this->pHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, entry.th32ProcessID);
 				}
+
+				CloseHandle(snapshot);
 				return true;
 			}
 		}
@@ -87,7 +89,7 @@ void BetterMW3Form::WriteFov(float value)
 {
 	if (this->pHandle && this->addressFov)
 	{
-		Memory::Write<float>(pHandle, this->addressFov, value);
+		Memory::Write<float>(this->pHandle, this->addressFov, value);
 	}
 }
 
@@ -95,6 +97,6 @@ void BetterMW3Form::WriteFps(int value)
 {
 	if (this->pHandle && this->addressFps)
 	{
-		Memory::Write<int>(pHandle, this->addressFps, value);
+		Memory::Write<int>(this->pHandle, this->addressFps, value);
 	}
 }
