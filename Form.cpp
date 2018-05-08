@@ -3,7 +3,7 @@
 System::Void BetterMW3Form::Form_Closed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e)
 {
 	this->Timer->Stop();
-	this->WriteFov(this->TrackBarFov->Minimum);
+	this->WriteFov((float) this->TrackBarFov->Minimum);
 	this->WriteFps(this->TrackBarFps->Minimum);
 	CloseHandle(this->pHandle);
 }
@@ -11,7 +11,7 @@ System::Void BetterMW3Form::Form_Closed(System::Object^ sender, System::Windows:
 System::Void BetterMW3Form::TrackBarFov_Scroll(System::Object^ sender, System::EventArgs^ e)
 {
 	this->LabelFovValue->Text = this->TrackBarFov->Value.ToString();
-	this->WriteFov(this->TrackBarFov->Value);
+	this->WriteFov((float) this->TrackBarFov->Value);
 }
 
 System::Void BetterMW3Form::TrackBarFps_Scroll(System::Object^ sender, System::EventArgs^ e)
@@ -55,7 +55,7 @@ System::Void BetterMW3Form::Timer_Tick(System::Object^ sender, System::EventArgs
 	}
 
 	// Write the set FoV and Max FPS
-	this->WriteFov(this->TrackBarFov->Value);
+	this->WriteFov((float) this->TrackBarFov->Value);
 	this->WriteFps(this->TrackBarFps->Value);
 }
 
@@ -74,7 +74,7 @@ bool BetterMW3Form::FindProcess()
 			{
 				if (!this->pHandle)
 				{
-					this->pHandle = OpenProcess(PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, entry.th32ProcessID);
+					this->pHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, entry.th32ProcessID);
 				}
 				return true;
 			}
@@ -85,7 +85,7 @@ bool BetterMW3Form::FindProcess()
 	return false;
 }
 
-void BetterMW3Form::WriteFov(int value)
+void BetterMW3Form::WriteFov(float value)
 {
 	if (this->pHandle && this->addressFov)
 	{

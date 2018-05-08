@@ -180,6 +180,6 @@ private:
 	System::Void Timer_Tick(System::Object^ sender, System::EventArgs^ e);
 
 	bool FindProcess();
-	void WriteFov(int value);
+	void WriteFov(float value);
 	void WriteFps(int value);
 };
