@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 #include <TlHelp32.h>
-#include "memory.h"
+#include "process.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -42,9 +42,9 @@ private:
 	System::ComponentModel::IContainer^ components;
 
 	// Memory Stuff
-	HANDLE pHandle;
-	DWORD_PTR addressFov;
-	DWORD_PTR addressFps;
+	Process*  CodProcess = nullptr;
+	DWORD_PTR AddressFov;
+	DWORD_PTR AddressFps;
 
 private:
 	void InitializeComponent(void)
@@ -180,7 +180,6 @@ private:
 	System::Void ButtonLaunch_Click(System::Object^ sender, System::EventArgs^ e);
 	System::Void Timer_Tick(System::Object^ sender, System::EventArgs^ e);
 
-	bool FindProcess();
 	void WriteFov(float value);
 	void WriteFps(int value);
 };

@@ -147,16 +147,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="datasource.h" />
     <ClInclude Include="Form.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="memory.h" />
+    <ClInclude Include="module.h" />
+    <ClInclude Include="process.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Form.cpp" />
-    <ClCompile Include="memory.cpp" />
+    <ClCompile Include="module.cpp" />
+    <ClCompile Include="process.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico" />

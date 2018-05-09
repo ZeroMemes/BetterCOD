@@ -18,7 +18,13 @@
     <ClInclude Include="Form.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="memory.h">
+    <ClInclude Include="datasource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="process.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="module.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,7 +38,10 @@
     <ClCompile Include="Form.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="memory.cpp">
+    <ClCompile Include="process.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="module.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

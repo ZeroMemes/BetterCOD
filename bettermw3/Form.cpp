@@ -5,7 +5,6 @@ System::Void BetterMW3Form::Form_Closed(System::Object^ sender, System::Windows:
 	this->Timer->Stop();
 	this->WriteFov((float) this->TrackBarFov->Minimum);
 	this->WriteFps(this->TrackBarFps->Minimum);
-	CloseHandle(this->pHandle);
 }
 
 System::Void BetterMW3Form::TrackBarFov_Scroll(System::Object^ sender, System::EventArgs^ e)
@@ -27,29 +26,36 @@ System::Void BetterMW3Form::ButtonLaunch_Click(System::Object^ sender, System::E
 
 System::Void BetterMW3Form::Timer_Tick(System::Object^ sender, System::EventArgs^ e)
 {
-	bool ProcessOpen = FindProcess();
+	DWORD pid;
+	bool ProcessOpen = Process::FindProcess(L"iw5mp.exe", pid);
 
 	this->ButtonLaunch->Enabled = !ProcessOpen;
 
-	if (!ProcessOpen && this->pHandle)
+	if (ProcessOpen && !this->CodProcess)
 	{
-		CloseHandle(this->pHandle);
-		this->addressFov = 0;
-		this->addressFps = 0;
-		this->pHandle = 0;
+		HANDLE handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, pid);
+		this->CodProcess = new Process(handle);
+	}
+	else if (!ProcessOpen)
+	{
+		this->AddressFps = 0;
+		this->AddressFps = 0;
+		this->CodProcess = nullptr;
 		return;
 	}
 
 	// Get the FOV address
-	if (!this->addressFov)
+	if (!this->AddressFov)
 	{
-		this->addressFov = Memory::Read<DWORD_PTR>(this->pHandle, 0xB0C738) + 0xC;
+		// iw5mp.exe + 0x70C738
+		this->AddressFov = this->CodProcess->Read<DWORD_PTR>(0xB0C738) + 0xC;
 	}
 
 	// Get the FPS address
-	if (!this->addressFps)
+	if (!this->AddressFps)
 	{
-		this->addressFps = Memory::Read<DWORD_PTR>(this->pHandle, 0x1CF0B84) + 0xC;
+		// iw5mp.exe + 0x18F0B84
+		this->AddressFps = this->CodProcess->Read<DWORD_PTR>(0x1CF0B84) + 0xC;
 	}
 
 	// Write the set FoV and Max FPS
@@ -57,46 +63,18 @@ System::Void BetterMW3Form::Timer_Tick(System::Object^ sender, System::EventArgs
 	this->WriteFps(this->TrackBarFps->Value);
 }
 
-bool BetterMW3Form::FindProcess()
-{
-	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-
-	PROCESSENTRY32 entry;
-	entry.dwSize = sizeof(PROCESSENTRY32);
-
-	if (Process32First(snapshot, &entry))
-	{
-		while (Process32Next(snapshot, &entry))
-		{
-			if (!wcscmp(entry.szExeFile, L"iw5mp.exe"))
-			{
-				if (!this->pHandle)
-				{
-					this->pHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, entry.th32ProcessID);
-				}
-
-				CloseHandle(snapshot);
-				return true;
-			}
-		}
-	}
-
-	CloseHandle(snapshot);
-	return false;
-}
-
 void BetterMW3Form::WriteFov(float value)
 {
-	if (this->pHandle && this->addressFov)
+	if (this->CodProcess && this->AddressFov)
 	{
-		Memory::Write<float>(this->pHandle, this->addressFov, value);
+		this->CodProcess->Write<float>(this->AddressFov, value);
 	}
 }
 
 void BetterMW3Form::WriteFps(int value)
 {
-	if (this->pHandle && this->addressFps)
+	if (this->CodProcess && this->AddressFps)
 	{
-		Memory::Write<int>(this->pHandle, this->addressFps, value);
+		this->CodProcess->Write<int>(this->AddressFps, value);
 	}
 }
