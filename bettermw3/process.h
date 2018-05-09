@@ -17,7 +17,6 @@ public:
 
 	HANDLE   GetHandle();
 	Module*  GetModule(wchar_t* name);
-	Module*  GetBaseModule();
 
 	static bool Process::FindProcess(wchar_t* name, DWORD& pidOut);
 protected:
