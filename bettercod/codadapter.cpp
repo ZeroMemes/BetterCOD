@@ -3,7 +3,8 @@
 namespace CODAdapter
 {
 	// Define MW3 Adapter
-	Adapter* MW3 = new Adapter{
+	Adapter* MW3 = new Adapter
+	{
 		"MW3",
 		L"iw5mp.exe",
 		"42690",

@@ -30,7 +30,7 @@ System::Void BetterCODForm::ButtonLaunch_Click(System::Object^ sender, System::E
 System::Void BetterCODForm::Timer_Tick(System::Object^ sender, System::EventArgs^ e)
 {
 	DWORD pid;
-	bool ProcessOpen = Process::FindProcess(this->CodAdapter->ProcessName.c_str(), pid);
+	bool ProcessOpen = Process::FindProcess(this->CodAdapter->ProcessName, pid);
 
 	this->ButtonLaunch->Enabled = !ProcessOpen;
 

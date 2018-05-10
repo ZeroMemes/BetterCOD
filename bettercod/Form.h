@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <TlHelp32.h>
+#include <sstream>
 #include "process.h"
 #include "codadapter.h"
 
