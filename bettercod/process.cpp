@@ -74,7 +74,7 @@ void Process::FindModules()
 	CloseHandle(snapshot);
 }
 
-bool Process::FindProcess(wchar_t* name, DWORD& pidOut)
+bool Process::FindProcess(const wchar_t* name, DWORD& pidOut)
 {
 	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
 

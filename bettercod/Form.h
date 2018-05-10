@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <TlHelp32.h>
 #include "process.h"
+#include "codadapter.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -11,17 +12,17 @@ using namespace System::Collections;
 using namespace System::Data;
 using namespace System::Drawing;
 
-public ref class BetterMW3Form : public Form
+public ref class BetterCODForm : public Form
 {
 
 public:
-	BetterMW3Form(void)
+	BetterCODForm(void)
 	{
 		InitializeComponent();
 	}
 
 protected:
-	~BetterMW3Form()
+	~BetterCODForm()
 	{
 		if (components)
 		{
@@ -42,6 +43,7 @@ private:
 	System::ComponentModel::IContainer^ components;
 
 	// Memory Stuff
+	CODAdapter::Adapter* CodAdapter = CODAdapter::MW3; // TODO: Create a selection box for this in the future
 	Process*  CodProcess = nullptr;
 	DWORD_PTR AddressFov;
 	DWORD_PTR AddressFps;
@@ -73,7 +75,7 @@ private:
 		this->TrackBarFov->TabIndex = 0;
 		this->TrackBarFov->TickFrequency = 5;
 		this->TrackBarFov->Value = 65;
-		this->TrackBarFov->Scroll += gcnew System::EventHandler(this, &BetterMW3Form::TrackBarFov_Scroll);
+		this->TrackBarFov->Scroll += gcnew System::EventHandler(this, &BetterCODForm::TrackBarFov_Scroll);
 		// 
 		// LabelFps
 		// 
@@ -94,7 +96,7 @@ private:
 		this->TrackBarFps->TabIndex = 2;
 		this->TrackBarFps->TickFrequency = 30;
 		this->TrackBarFps->Value = 85;
-		this->TrackBarFps->Scroll += gcnew System::EventHandler(this, &BetterMW3Form::TrackBarFps_Scroll);
+		this->TrackBarFps->Scroll += gcnew System::EventHandler(this, &BetterCODForm::TrackBarFps_Scroll);
 		// 
 		// LabelFov
 		// 
@@ -130,8 +132,8 @@ private:
 		this->LabelCredit->Name = L"LabelCredit";
 		this->LabelCredit->Size = System::Drawing::Size(234, 13);
 		this->LabelCredit->TabIndex = 6;
-		this->LabelCredit->Text = L"MW3 FOV Changer and FPS Unlocker by Brady";
-		// 
+		this->LabelCredit->Text = L"MWx FOV Changer and FPS Unlocker by Brady";
+		//	
 		// ButtonLaunch
 		// 
 		this->ButtonLaunch->Location = System::Drawing::Point(252, 99);
@@ -140,15 +142,15 @@ private:
 		this->ButtonLaunch->TabIndex = 7;
 		this->ButtonLaunch->Text = L"Launch";
 		this->ButtonLaunch->UseVisualStyleBackColor = true;
-		this->ButtonLaunch->Click += gcnew System::EventHandler(this, &BetterMW3Form::ButtonLaunch_Click);
+		this->ButtonLaunch->Click += gcnew System::EventHandler(this, &BetterCODForm::ButtonLaunch_Click);
 		// 
 		// Timer
 		// 
 		this->Timer->Enabled = true;
 		this->Timer->Interval = 50;
-		this->Timer->Tick += gcnew System::EventHandler(this, &BetterMW3Form::Timer_Tick);
+		this->Timer->Tick += gcnew System::EventHandler(this, &BetterCODForm::Timer_Tick);
 		// 
-		// BetterMW3Form
+		// BetterCODForm
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -163,10 +165,10 @@ private:
 		this->Controls->Add(this->TrackBarFov);
 		this->MaximumSize = System::Drawing::Size(385, 175);
 		this->MinimumSize = System::Drawing::Size(385, 175);
-		this->Name = L"BetterMW3Form";
+		this->Name = L"BetterCODForm";
 		this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-		this->Text = L"Better MW3";
-		this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &BetterMW3Form::Form_Closed);
+		this->Text = L"Better COD";
+		this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &BetterCODForm::Form_Closed);
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->TrackBarFov))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->TrackBarFps))->EndInit();
 		this->ResumeLayout(false);

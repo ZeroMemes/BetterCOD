@@ -5,6 +5,6 @@ int main()
 {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
-	Application::Run(gcnew BetterMW3Form());
+	Application::Run(gcnew BetterCODForm());
 	return 0;
 }

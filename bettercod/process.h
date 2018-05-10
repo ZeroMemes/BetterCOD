@@ -18,7 +18,7 @@ public:
 	HANDLE   GetHandle();
 	Module*  GetModule(wchar_t* name);
 
-	static bool Process::FindProcess(wchar_t* name, DWORD& pidOut);
+	static bool Process::FindProcess(const wchar_t* name, DWORD& pidOut);
 protected:
 	HANDLE    Handle;
 	std::vector<Module*> Modules;

@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="codadapter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Form.cpp" />
     <ClCompile Include="module.cpp" />
@@ -171,6 +172,9 @@
     <EmbeddedResource Include="Form.resx">
       <DependentUpon>Form.h</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="codadapter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
