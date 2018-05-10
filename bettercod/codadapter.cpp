@@ -11,4 +11,19 @@ namespace CODAdapter
 		0xB0C738,
 		0x1CF0B84
 	};
+
+	// Define MW2 Adapter
+	Adapter* MW2 = new Adapter
+	{
+		"MW2",
+		L"iw4mp.exe",
+		"10190",
+		0xAAC278,
+		0x1B907B0
+	};
+
+	std::vector<Adapter*>* Adapters = new std::vector<Adapter*>
+	{
+		MW3, MW2
+	};
 }

@@ -20,6 +20,7 @@ public:
 	BetterCODForm(void)
 	{
 		InitializeComponent();
+		InitializeBetterCOD();
 	}
 
 protected:
@@ -38,13 +39,15 @@ private:
 	System::Windows::Forms::Label^      LabelFovValue;
 	System::Windows::Forms::Label^      LabelFps;
 	System::Windows::Forms::Label^      LabelFpsValue;
-	System::Windows::Forms::Label^      LabelCredit;
+	System::Windows::Forms::ComboBox^   ComboBoxGame;
+	System::Windows::Forms::Label^      LabelGame;
 	System::Windows::Forms::Button^     ButtonLaunch;
 	System::Windows::Forms::Timer^      Timer;
+
 	System::ComponentModel::IContainer^ components;
 
 	// Memory Stuff
-	CODAdapter::Adapter* CodAdapter = CODAdapter::MW3; // TODO: Create a selection box for this in the future
+	CODAdapter::Adapter* CodAdapter = CODAdapter::Adapters->at(0);
 	Process*  CodProcess = nullptr;
 	DWORD_PTR AddressFov;
 	DWORD_PTR AddressFps;
@@ -59,9 +62,10 @@ private:
 		this->LabelFov = (gcnew System::Windows::Forms::Label());
 		this->LabelFovValue = (gcnew System::Windows::Forms::Label());
 		this->LabelFpsValue = (gcnew System::Windows::Forms::Label());
-		this->LabelCredit = (gcnew System::Windows::Forms::Label());
 		this->ButtonLaunch = (gcnew System::Windows::Forms::Button());
 		this->Timer = (gcnew System::Windows::Forms::Timer(this->components));
+		this->ComboBoxGame = (gcnew System::Windows::Forms::ComboBox());
+		this->LabelGame = (gcnew System::Windows::Forms::Label());
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->TrackBarFov))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->TrackBarFps))->BeginInit();
 		this->SuspendLayout();
@@ -126,20 +130,11 @@ private:
 		this->LabelFpsValue->TabIndex = 5;
 		this->LabelFpsValue->Text = L"85";
 		// 
-		// LabelCredit
-		// 
-		this->LabelCredit->AutoSize = true;
-		this->LabelCredit->Location = System::Drawing::Point(12, 107);
-		this->LabelCredit->Name = L"LabelCredit";
-		this->LabelCredit->Size = System::Drawing::Size(234, 13);
-		this->LabelCredit->TabIndex = 6;
-		this->LabelCredit->Text = L"MWx FOV Changer and FPS Unlocker by Brady";
-		//	
 		// ButtonLaunch
 		// 
-		this->ButtonLaunch->Location = System::Drawing::Point(252, 99);
+		this->ButtonLaunch->Location = System::Drawing::Point(282, 99);
 		this->ButtonLaunch->Name = L"ButtonLaunch";
-		this->ButtonLaunch->Size = System::Drawing::Size(105, 29);
+		this->ButtonLaunch->Size = System::Drawing::Size(75, 29);
 		this->ButtonLaunch->TabIndex = 7;
 		this->ButtonLaunch->Text = L"Launch";
 		this->ButtonLaunch->UseVisualStyleBackColor = true;
@@ -151,13 +146,32 @@ private:
 		this->Timer->Interval = 50;
 		this->Timer->Tick += gcnew System::EventHandler(this, &BetterCODForm::Timer_Tick);
 		// 
+		// ComboBoxGame
+		// 
+		this->ComboBoxGame->FormattingEnabled = true;
+		this->ComboBoxGame->Location = System::Drawing::Point(85, 103);
+		this->ComboBoxGame->Name = L"ComboBoxGame";
+		this->ComboBoxGame->Size = System::Drawing::Size(191, 21);
+		this->ComboBoxGame->TabIndex = 8;
+		this->ComboBoxGame->SelectedIndexChanged += gcnew System::EventHandler(this, &BetterCODForm::ComboBoxGame_SelectedIndexChanged);
+		// 
+		// LabelGame
+		// 
+		this->LabelGame->AutoSize = true;
+		this->LabelGame->Location = System::Drawing::Point(12, 106);
+		this->LabelGame->Name = L"LabelGame";
+		this->LabelGame->Size = System::Drawing::Size(35, 13);
+		this->LabelGame->TabIndex = 9;
+		this->LabelGame->Text = L"Game";
+		// 
 		// BetterCODForm
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 		this->ClientSize = System::Drawing::Size(369, 136);
+		this->Controls->Add(this->LabelGame);
+		this->Controls->Add(this->ComboBoxGame);
 		this->Controls->Add(this->ButtonLaunch);
-		this->Controls->Add(this->LabelCredit);
 		this->Controls->Add(this->LabelFpsValue);
 		this->Controls->Add(this->LabelFovValue);
 		this->Controls->Add(this->LabelFov);
@@ -177,12 +191,17 @@ private:
 
 	}
 
+	void InitializeBetterCOD();
+
 	System::Void Form_Closed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
 	System::Void TrackBarFov_Scroll(System::Object^ sender, System::EventArgs^ e);
 	System::Void TrackBarFps_Scroll(System::Object^ sender, System::EventArgs^ e);
 	System::Void ButtonLaunch_Click(System::Object^ sender, System::EventArgs^ e);
 	System::Void Timer_Tick(System::Object^ sender, System::EventArgs^ e);
+	System::Void ComboBoxGame_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e);
 
 	void WriteFov(float value);
 	void WriteFps(int value);
+	void RestoreGameState();
+	void InvalidateCurrentGame();
 };

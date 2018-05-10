@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <vector>
 
 namespace CODAdapter
 {
@@ -14,4 +15,6 @@ namespace CODAdapter
 	};
 
 	extern Adapter* MW3;
+	extern Adapter* MW2;
+	extern std::vector<Adapter*>* Adapters;
 }

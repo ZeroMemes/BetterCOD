@@ -1,10 +1,21 @@
 #include "Form.h"
 
+void BetterCODForm::InitializeBetterCOD()
+{
+	cli::array<System::String^>^ Adapters = gcnew cli::array<System::String^>(CODAdapter::Adapters->size());
+	for (unsigned int i = 0; i < CODAdapter::Adapters->size(); i++)
+	{
+		Adapters[i] = gcnew System::String(CODAdapter::Adapters->at(i)->GameName);
+	}
+	this->ComboBoxGame->Items->AddRange(Adapters);
+	this->ComboBoxGame->SelectedIndex = 0;
+	this->ComboBoxGame->DropDownStyle = ComboBoxStyle::DropDownList;
+}
+
 System::Void BetterCODForm::Form_Closed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e)
 {
 	this->Timer->Stop();
-	this->WriteFov((float) this->TrackBarFov->Minimum);
-	this->WriteFps(this->TrackBarFps->Minimum);
+	this->RestoreGameState();
 }
 
 System::Void BetterCODForm::TrackBarFov_Scroll(System::Object^ sender, System::EventArgs^ e)
@@ -27,6 +38,13 @@ System::Void BetterCODForm::ButtonLaunch_Click(System::Object^ sender, System::E
 	system(str.str().c_str());
 }
 
+System::Void BetterCODForm::ComboBoxGame_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e)
+{
+	this->RestoreGameState();
+	this->InvalidateCurrentGame();
+	this->CodAdapter = CODAdapter::Adapters->at(this->ComboBoxGame->SelectedIndex);
+}
+
 System::Void BetterCODForm::Timer_Tick(System::Object^ sender, System::EventArgs^ e)
 {
 	DWORD pid;
@@ -41,22 +59,30 @@ System::Void BetterCODForm::Timer_Tick(System::Object^ sender, System::EventArgs
 	}
 	else if (!ProcessOpen)
 	{
-		this->AddressFps = 0;
-		this->AddressFps = 0;
-		this->CodProcess = nullptr;
+		this->InvalidateCurrentGame();
 		return;
 	}
 
 	// Get the FOV address
 	if (!this->AddressFov)
 	{
-		this->AddressFov = this->CodProcess->Read<DWORD_PTR>(this->CodAdapter->PointerFOV) + 0xC;
+		DWORD_PTR address = this->CodProcess->Read<DWORD_PTR>(this->CodAdapter->PointerFOV) + 0xC;
+		// Make sure the address points to the right location
+		if (this->CodProcess->Read<float>(address) == (float) this->TrackBarFov->Minimum)
+		{
+			this->AddressFov = address;
+		}
 	}
 
 	// Get the FPS address
 	if (!this->AddressFps)
 	{
-		this->AddressFps = this->CodProcess->Read<DWORD_PTR>(this->CodAdapter->PointerFPS) + 0xC;
+		DWORD_PTR address = this->CodProcess->Read<DWORD_PTR>(this->CodAdapter->PointerFPS) + 0xC;
+		// Make sure the address points to the right location
+		if (this->CodProcess->Read<int>(address) == this->TrackBarFps->Minimum)
+		{
+			this->AddressFps = address;
+		}
 	}
 
 	// Write the set FoV and Max FPS
@@ -78,4 +104,17 @@ void BetterCODForm::WriteFps(int value)
 	{
 		this->CodProcess->Write<int>(this->AddressFps, value);
 	}
+}
+
+void BetterCODForm::RestoreGameState()
+{
+	this->WriteFov((float) this->TrackBarFov->Minimum);
+	this->WriteFps(this->TrackBarFps->Minimum);
+}
+
+void BetterCODForm::InvalidateCurrentGame()
+{
+	this->AddressFps = 0;
+	this->AddressFps = 0;
+	this->CodProcess = nullptr;
 }
