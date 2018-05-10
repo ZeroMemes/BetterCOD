@@ -65,11 +65,11 @@ private:
 		// 
 		// TrackBarFov
 		// 
-		this->TrackBarFov->Location = System::Drawing::Point(46, 12);
+		this->TrackBarFov->Location = System::Drawing::Point(85, 12);
 		this->TrackBarFov->Maximum = 100;
 		this->TrackBarFov->Minimum = 65;
 		this->TrackBarFov->Name = L"TrackBarFov";
-		this->TrackBarFov->Size = System::Drawing::Size(253, 45);
+		this->TrackBarFov->Size = System::Drawing::Size(247, 45);
 		this->TrackBarFov->TabIndex = 0;
 		this->TrackBarFov->TickFrequency = 5;
 		this->TrackBarFov->Value = 65;
@@ -80,17 +80,17 @@ private:
 		this->LabelFps->AutoSize = true;
 		this->LabelFps->Location = System::Drawing::Point(12, 16);
 		this->LabelFps->Name = L"LabelFps";
-		this->LabelFps->Size = System::Drawing::Size(28, 13);
+		this->LabelFps->Size = System::Drawing::Size(67, 13);
 		this->LabelFps->TabIndex = 1;
-		this->LabelFps->Text = L"FOV";
+		this->LabelFps->Text = L"Field of View";
 		// 
 		// TrackBarFps
 		// 
-		this->TrackBarFps->Location = System::Drawing::Point(46, 63);
+		this->TrackBarFps->Location = System::Drawing::Point(85, 63);
 		this->TrackBarFps->Maximum = 235;
 		this->TrackBarFps->Minimum = 85;
 		this->TrackBarFps->Name = L"TrackBarFps";
-		this->TrackBarFps->Size = System::Drawing::Size(253, 45);
+		this->TrackBarFps->Size = System::Drawing::Size(245, 45);
 		this->TrackBarFps->TabIndex = 2;
 		this->TrackBarFps->TickFrequency = 30;
 		this->TrackBarFps->Value = 85;
@@ -101,14 +101,14 @@ private:
 		this->LabelFov->AutoSize = true;
 		this->LabelFov->Location = System::Drawing::Point(12, 67);
 		this->LabelFov->Name = L"LabelFov";
-		this->LabelFov->Size = System::Drawing::Size(27, 13);
+		this->LabelFov->Size = System::Drawing::Size(50, 13);
 		this->LabelFov->TabIndex = 3;
-		this->LabelFov->Text = L"FPS";
+		this->LabelFov->Text = L"Max FPS";
 		// 
 		// LabelFovValue
 		// 
 		this->LabelFovValue->AutoSize = true;
-		this->LabelFovValue->Location = System::Drawing::Point(305, 16);
+		this->LabelFovValue->Location = System::Drawing::Point(338, 16);
 		this->LabelFovValue->Name = L"LabelFovValue";
 		this->LabelFovValue->Size = System::Drawing::Size(19, 13);
 		this->LabelFovValue->TabIndex = 4;
@@ -117,7 +117,7 @@ private:
 		// LabelFpsValue
 		// 
 		this->LabelFpsValue->AutoSize = true;
-		this->LabelFpsValue->Location = System::Drawing::Point(305, 67);
+		this->LabelFpsValue->Location = System::Drawing::Point(338, 67);
 		this->LabelFpsValue->Name = L"LabelFpsValue";
 		this->LabelFpsValue->Size = System::Drawing::Size(19, 13);
 		this->LabelFpsValue->TabIndex = 5;
@@ -134,9 +134,9 @@ private:
 		// 
 		// ButtonLaunch
 		// 
-		this->ButtonLaunch->Location = System::Drawing::Point(252, 100);
+		this->ButtonLaunch->Location = System::Drawing::Point(252, 99);
 		this->ButtonLaunch->Name = L"ButtonLaunch";
-		this->ButtonLaunch->Size = System::Drawing::Size(75, 29);
+		this->ButtonLaunch->Size = System::Drawing::Size(105, 29);
 		this->ButtonLaunch->TabIndex = 7;
 		this->ButtonLaunch->Text = L"Launch";
 		this->ButtonLaunch->UseVisualStyleBackColor = true;
@@ -152,7 +152,7 @@ private:
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-		this->ClientSize = System::Drawing::Size(338, 136);
+		this->ClientSize = System::Drawing::Size(369, 136);
 		this->Controls->Add(this->ButtonLaunch);
 		this->Controls->Add(this->LabelCredit);
 		this->Controls->Add(this->LabelFpsValue);
@@ -161,8 +161,8 @@ private:
 		this->Controls->Add(this->TrackBarFps);
 		this->Controls->Add(this->LabelFps);
 		this->Controls->Add(this->TrackBarFov);
-		this->MaximumSize = System::Drawing::Size(354, 175);
-		this->MinimumSize = System::Drawing::Size(354, 175);
+		this->MaximumSize = System::Drawing::Size(385, 175);
+		this->MinimumSize = System::Drawing::Size(385, 175);
 		this->Name = L"BetterMW3Form";
 		this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 		this->Text = L"Better MW3";
