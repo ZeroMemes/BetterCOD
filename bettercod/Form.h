@@ -1,12 +1,19 @@
 #pragma once
 
 #include <Windows.h>
+#include <KnownFolders.h>
+#include <ShlObj.h>
 #include <TlHelp32.h>
+#include <Shlwapi.h>
+
+#include <fstream>
 #include <sstream>
+
 #include "process.h"
 #include "codadapter.h"
 
-#pragma comment(lib, "shell32.lib")
+#pragma comment(lib, "shell32")
+#pragma comment(lib, "Shlwapi")
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -155,7 +162,6 @@ private:
 		this->ComboBoxGame->Name = L"ComboBoxGame";
 		this->ComboBoxGame->Size = System::Drawing::Size(191, 21);
 		this->ComboBoxGame->TabIndex = 8;
-		this->ComboBoxGame->SelectedIndexChanged += gcnew System::EventHandler(this, &BetterCODForm::ComboBoxGame_SelectedIndexChanged);
 		// 
 		// LabelGame
 		// 
@@ -194,6 +200,8 @@ private:
 	}
 
 	void InitializeBetterCOD();
+	void LoadSettings();
+	void SaveSettings();
 
 	System::Void Form_Closed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e);
 	System::Void TrackBarFov_Scroll(System::Object^ sender, System::EventArgs^ e);
@@ -202,6 +210,7 @@ private:
 	System::Void Timer_Tick(System::Object^ sender, System::EventArgs^ e);
 	System::Void ComboBoxGame_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e);
 
+	void UpdateTrackBarLabels();
 	void WriteFov(float value);
 	void WriteFps(int value);
 	void RestoreGameState();

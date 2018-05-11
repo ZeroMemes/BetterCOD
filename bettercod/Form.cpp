@@ -10,24 +10,81 @@ void BetterCODForm::InitializeBetterCOD()
 	this->ComboBoxGame->Items->AddRange(Adapters);
 	this->ComboBoxGame->SelectedIndex = 0;
 	this->ComboBoxGame->DropDownStyle = ComboBoxStyle::DropDownList;
+	this->LoadSettings();
+
+	// Register selected index changed listener here to prevent calls before it should be called
+	this->ComboBoxGame->SelectedIndexChanged += gcnew System::EventHandler(this, &BetterCODForm::ComboBoxGame_SelectedIndexChanged);
+}
+
+void BetterCODForm::LoadSettings()
+{
+	// Retrieve the AppData/Roaming directory
+	wchar_t* ppszPath;
+	SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &ppszPath);
+
+	// Append the settings path to a new stream
+	std::wstringstream ss;
+	ss << ppszPath << L"\\BetterCOD\\Settings.ini";
+
+	std::wstring ini = ss.str();
+
+	if (!PathFileExists(ini.c_str()))
+	{
+		this->SaveSettings();
+		return;
+	}
+
+	int selected = GetPrivateProfileInt(L"General", L"CurrentGame", 0, ini.c_str());
+	if (selected >= 0 && selected <= (int) CODAdapter::Adapters->size())
+	{
+		this->ComboBoxGame->SelectedIndex = selected;
+	}
+
+	this->TrackBarFov->Value = GetPrivateProfileInt(this->CodAdapter->GameName, L"Fov", 90, ini.c_str());
+	this->TrackBarFps->Value = GetPrivateProfileInt(this->CodAdapter->GameName, L"Fps", 85, ini.c_str());
+	this->UpdateTrackBarLabels();
+}
+
+void BetterCODForm::SaveSettings()
+{
+	// Retrieve the AppData/Roaming directory
+	wchar_t* ppszPath;
+	SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &ppszPath);
+
+	// Append the path to the settings directory to a new stream
+	std::wstringstream ss;
+	ss << ppszPath << L"\\BetterCOD";
+
+	// Create the directory
+	CreateDirectory(ss.str().c_str(), NULL);
+
+	// Append the file path to the stream
+	ss << L"\\Settings.ini";
+
+	std::wstring ini = ss.str();
+
+	WritePrivateProfileString(L"General", L"CurrentGame", std::to_wstring(this->ComboBoxGame->SelectedIndex).c_str(), ini.c_str());
+	WritePrivateProfileString(this->CodAdapter->GameName, L"Fov", std::to_wstring(this->TrackBarFov->Value).c_str(), ini.c_str());
+	WritePrivateProfileString(this->CodAdapter->GameName, L"Fps", std::to_wstring(this->TrackBarFps->Value).c_str(), ini.c_str());
 }
 
 System::Void BetterCODForm::Form_Closed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e)
 {
 	this->Timer->Stop();
 	this->RestoreGameState();
+	this->SaveSettings();
 }
 
 System::Void BetterCODForm::TrackBarFov_Scroll(System::Object^ sender, System::EventArgs^ e)
 {
-	this->LabelFovValue->Text = this->TrackBarFov->Value.ToString();
 	this->WriteFov((float) this->TrackBarFov->Value);
+	this->UpdateTrackBarLabels();
 }
 
 System::Void BetterCODForm::TrackBarFps_Scroll(System::Object^ sender, System::EventArgs^ e)
 {
-	this->LabelFpsValue->Text = this->TrackBarFps->Value.ToString();
 	this->WriteFps(this->TrackBarFps->Value);
+	this->UpdateTrackBarLabels();
 }
 
 System::Void BetterCODForm::ButtonLaunch_Click(System::Object^ sender, System::EventArgs^ e)
@@ -40,9 +97,11 @@ System::Void BetterCODForm::ButtonLaunch_Click(System::Object^ sender, System::E
 
 System::Void BetterCODForm::ComboBoxGame_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e)
 {
+	this->SaveSettings();
 	this->RestoreGameState();
 	this->InvalidateCurrentGame();
 	this->CodAdapter = CODAdapter::Adapters->at(this->ComboBoxGame->SelectedIndex);
+	this->LoadSettings();
 }
 
 System::Void BetterCODForm::Timer_Tick(System::Object^ sender, System::EventArgs^ e)
@@ -88,6 +147,12 @@ System::Void BetterCODForm::Timer_Tick(System::Object^ sender, System::EventArgs
 	// Write the set FoV and Max FPS
 	this->WriteFov((float) this->TrackBarFov->Value);
 	this->WriteFps(this->TrackBarFps->Value);
+}
+
+void BetterCODForm::UpdateTrackBarLabels()
+{
+	this->LabelFovValue->Text = this->TrackBarFov->Value.ToString();
+	this->LabelFpsValue->Text = this->TrackBarFps->Value.ToString();
 }
 
 void BetterCODForm::WriteFov(float value)
