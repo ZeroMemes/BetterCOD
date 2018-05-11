@@ -125,22 +125,20 @@ System::Void BetterCODForm::Timer_Tick(System::Object^ sender, System::EventArgs
 	// Get the FOV address
 	if (!this->AddressFov)
 	{
-		DWORD_PTR address = this->CodProcess->Read<DWORD_PTR>(this->CodAdapter->PointerFOV) + 0xC;
-		// Make sure the address points to the right location
-		if (this->CodProcess->Read<float>(address) == (float) this->TrackBarFov->Minimum)
+		DWORD address = this->CodProcess->Read<DWORD_PTR>(this->CodAdapter->PointerFOV);
+		if (address > 0)
 		{
-			this->AddressFov = address;
+			this->AddressFov = address + 0xC;
 		}
 	}
 
 	// Get the FPS address
 	if (!this->AddressFps)
 	{
-		DWORD_PTR address = this->CodProcess->Read<DWORD_PTR>(this->CodAdapter->PointerFPS) + 0xC;
-		// Make sure the address points to the right location
-		if (this->CodProcess->Read<int>(address) == this->TrackBarFps->Minimum)
+		DWORD address = this->CodProcess->Read<DWORD_PTR>(this->CodAdapter->PointerFPS);
+		if (address > 0)
 		{
-			this->AddressFps = address;
+			this->AddressFps = address + 0xC;
 		}
 	}
 
