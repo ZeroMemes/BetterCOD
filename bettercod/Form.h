@@ -190,7 +190,7 @@ private:
 		this->MinimumSize = System::Drawing::Size(385, 175);
 		this->Name = L"BetterCODForm";
 		this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-		this->Text = L"Better COD";
+		this->Text = L"Better COD " + Application::ProductVersion;
 		this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &BetterCODForm::Form_Closed);
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->TrackBarFov))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->TrackBarFps))->EndInit();
