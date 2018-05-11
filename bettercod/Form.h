@@ -6,6 +6,8 @@
 #include "process.h"
 #include "codadapter.h"
 
+#pragma comment(lib, "shell32.lib")
+
 using namespace System;
 using namespace System::Windows::Forms;
 using namespace System::ComponentModel;

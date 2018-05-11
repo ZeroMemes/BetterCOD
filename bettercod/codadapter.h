@@ -7,7 +7,7 @@ namespace CODAdapter
 {
 	struct Adapter
 	{
-		char*     GameName;
+		wchar_t*  GameName;
 		wchar_t*  ProcessName;
 		char*     SteamAppID;
 		DWORD_PTR PointerFOV;

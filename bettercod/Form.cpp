@@ -32,10 +32,10 @@ System::Void BetterCODForm::TrackBarFps_Scroll(System::Object^ sender, System::E
 
 System::Void BetterCODForm::ButtonLaunch_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	std::stringstream str;
-	str << "start steam://rungameid/";
+	std::wstringstream str;
+	str << "steam://rungameid/";
 	str << this->CodAdapter->SteamAppID;
-	system(str.str().c_str());
+	ShellExecute(NULL, NULL, str.str().c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 
 System::Void BetterCODForm::ComboBoxGame_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e)
