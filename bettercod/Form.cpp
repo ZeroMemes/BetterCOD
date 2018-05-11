@@ -40,7 +40,7 @@ void BetterCODForm::LoadSettings()
 		this->ComboBoxGame->SelectedIndex = selected;
 	}
 
-	this->TrackBarFov->Value = GetPrivateProfileInt(this->CodAdapter->GameName, L"Fov", 90, ini.c_str());
+	this->TrackBarFov->Value = GetPrivateProfileInt(this->CodAdapter->GameName, L"Fov", 65, ini.c_str());
 	this->TrackBarFps->Value = GetPrivateProfileInt(this->CodAdapter->GameName, L"Fps", 85, ini.c_str());
 	this->UpdateTrackBarLabels();
 }
