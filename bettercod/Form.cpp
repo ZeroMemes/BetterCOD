@@ -35,7 +35,7 @@ void BetterCODForm::LoadSettings()
 	}
 
 	int selected = GetPrivateProfileInt(L"General", L"CurrentGame", 0, ini.c_str());
-	if (selected >= 0 && selected <= (int) CODAdapter::Adapters->size())
+	if (selected >= 0 && selected <= static_cast<int>(CODAdapter::Adapters->size()))
 	{
 		this->ComboBoxGame->SelectedIndex = selected;
 	}
@@ -77,7 +77,7 @@ System::Void BetterCODForm::Form_Closed(System::Object^ sender, System::Windows:
 
 System::Void BetterCODForm::TrackBarFov_Scroll(System::Object^ sender, System::EventArgs^ e)
 {
-	this->WriteFov((float) this->TrackBarFov->Value);
+	this->WriteFov(static_cast<float>(this->TrackBarFov->Value));
 	this->UpdateTrackBarLabels();
 }
 
@@ -143,7 +143,7 @@ System::Void BetterCODForm::Timer_Tick(System::Object^ sender, System::EventArgs
 	}
 
 	// Write the set FoV and Max FPS
-	this->WriteFov((float) this->TrackBarFov->Value);
+	this->WriteFov(static_cast<float>(this->TrackBarFov->Value));
 	this->WriteFps(this->TrackBarFps->Value);
 }
 
@@ -171,7 +171,7 @@ void BetterCODForm::WriteFps(int value)
 
 void BetterCODForm::RestoreGameState()
 {
-	this->WriteFov((float) this->TrackBarFov->Minimum);
+	this->WriteFov(static_cast<float>(this->TrackBarFov->Minimum));
 	this->WriteFps(this->TrackBarFps->Minimum);
 }
 
